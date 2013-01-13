@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import logger.GRTLogger;
 import mechanism.GRTDriveTrain;
+import sensor.Dashboard2013;
 import sensor.GRTBatterySensor;
 import sensor.GRTEncoder;
 import sensor.GRTJoystick;
@@ -45,6 +46,11 @@ public class MainRobot extends GRTRobot {
 
         GRTLogger.logInfo("Base 2013: GRTFramework starting up.");
 
+        //Dashboard
+        Dashboard2013 dash = new Dashboard2013();
+        dash.startPolling();
+        dash.enable();
+        
         //Driver station components
         GRTJoystick primary = new GRTJoystick(1, 12, "primary");
         GRTJoystick secondary =
@@ -94,7 +100,7 @@ public class MainRobot extends GRTRobot {
 
         //Controllers
         DriveController dc =
-                new DriveController(dt, primary, secondary);
+                new DriveController(dt, primary, secondary, dash);
         GRTLogger.logInfo("Controllers Initialized");
 
         addTeleopController(dc);

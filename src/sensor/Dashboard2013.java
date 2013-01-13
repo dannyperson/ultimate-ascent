@@ -5,7 +5,6 @@
 package sensor;
 
 import core.Sensor;
-import edu.wpi.first.wpilibj.networktables.NetworkTableKeyNotDefined;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import event.events.DashboardEvent;
 import event.listeners.DashboardListener;

@@ -2,10 +2,14 @@ package controller;
 
 import core.EventController;
 import event.events.ButtonEvent;
+import event.events.DashboardEvent;
 import event.events.JoystickEvent;
+import event.events.SensorEvent;
 import event.listeners.ButtonListener;
+import event.listeners.DashboardListener;
 import event.listeners.GRTJoystickListener;
 import mechanism.GRTDriveTrain;
+import sensor.Dashboard2013;
 import sensor.GRTJoystick;
 
 /**
@@ -15,10 +19,11 @@ import sensor.GRTJoystick;
  *
  * @author andrew, keshav
  */
-public class DriveController extends EventController implements GRTJoystickListener, ButtonListener {
+public class DriveController extends EventController implements GRTJoystickListener, ButtonListener, DashboardListener {
 
     //sensor
     GRTJoystick left, right;
+    Dashboard2013 dash;
     
     //actuator
     private final GRTDriveTrain dt;
@@ -36,9 +41,10 @@ public class DriveController extends EventController implements GRTJoystickListe
      * @param ds driver station to control with
      * @param name name of controller
      */
-    public DriveController(GRTDriveTrain dt, GRTJoystick leftStick, GRTJoystick rightStick) {
+    public DriveController(GRTDriveTrain dt, GRTJoystick leftStick, GRTJoystick rightStick, Dashboard2013 dash) {
         super("Driving Controller");
         this.dt = dt;
+        this.dash = dash;
         
         this.left = leftStick;
         this.right = rightStick;
@@ -93,5 +99,12 @@ public class DriveController extends EventController implements GRTJoystickListe
                 dt.shiftUp();
             }            
         }
+    }
+
+    public void changed(DashboardEvent e) {
+        dash.sendDouble(dash.KEY_RESPONSE, e.getData());
+    }
+
+    public void sensorStateChanged(SensorEvent e) {
     }
 }
