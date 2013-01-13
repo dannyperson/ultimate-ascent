@@ -53,6 +53,7 @@ public class Dashboard2013 extends Sensor{
 
     protected void notifyListeners(int id, double newDatum) {
         DashboardEvent e = new DashboardEvent(this, id, newDatum);
+        logInfo("Datum:" + fieldNames[id] + " Datum: " + newDatum);
         
         for (Enumeration en = dashListeners.elements(); en.hasMoreElements();)
         {
