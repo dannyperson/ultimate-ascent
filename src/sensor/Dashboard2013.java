@@ -71,6 +71,6 @@ public class Dashboard2013 extends Sensor{
     
     public void sendDouble(int id, double data)
     {
-        SmartDashboard.putDouble(fieldNames[id], data);
+        SmartDashboard.putNumber(fieldNames[id], data);
     }
 }
