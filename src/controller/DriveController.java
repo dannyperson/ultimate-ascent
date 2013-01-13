@@ -102,7 +102,7 @@ public class DriveController extends EventController implements GRTJoystickListe
     }
 
     public void changed(DashboardEvent e) {
-        dash.sendDouble(dash.KEY_RESPONSE, e.getData());
+        dash.sendNumber(dash.KEY_RESPONSE, e.getData());
     }
 
     public void sensorStateChanged(SensorEvent e) {

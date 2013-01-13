@@ -99,8 +99,7 @@ public class MainRobot extends GRTRobot {
         GRTLogger.logInfo("Mechanisms initialized");
 
         //Controllers
-        DriveController dc =
-                new DriveController(dt, primary, secondary, dash);
+        DriveController dc = new DriveController(dt, primary, secondary, dash);
         GRTLogger.logInfo("Controllers Initialized");
 
         addTeleopController(dc);

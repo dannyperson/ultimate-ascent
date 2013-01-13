@@ -45,10 +45,10 @@ public class Dashboard2013 extends Sensor{
     
     protected void poll()
     {
-        for(int i = 0; i < fieldNames.length; i++)
-        {
-            this.setState(i, SmartDashboard.getNumber(fieldNames[i]));
-        }
+        this.setState(0, SmartDashboard.getNumber(fieldNames[0]));
+        this.setState(1, SmartDashboard.getNumber(fieldNames[1]));
+        this.setState(2, SmartDashboard.getNumber(fieldNames[2]));
+
     }
 
     protected void notifyListeners(int id, double newDatum) {
@@ -69,7 +69,7 @@ public class Dashboard2013 extends Sensor{
         dashListeners.removeElement(l);
     }
     
-    public void sendDouble(int id, double data)
+    public void sendNumber(int id, double data)
     {
         SmartDashboard.putNumber(fieldNames[id], data);
     }
