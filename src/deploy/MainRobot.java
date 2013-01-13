@@ -1,10 +1,10 @@
 package deploy;
 
-import actuator.GRTSolenoid;
-import actuator.GRTTalon;
-import actuator.GRTVictor;
 import controller.DriveController;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import logger.GRTLogger;
 import mechanism.GRTDriveTrain;
@@ -18,21 +18,21 @@ import sensor.GRTJoystick;
  * @author ajc
  */
 public class MainRobot extends GRTRobot {
-   
+
     private GRTDriveTrain dt;
-    
+
     /**
      * Initializer for the robot. Calls an appropriate initialization function.
      */
     public MainRobot() {
-        
-        base2012Init();
-//        base2013Init();
-        
+
+//        base2012Init();
+        base2013Init();
+
         GRTLogger.logInfo("Big G, Little O");
         GRTLogger.logInfo("Go Go Go!");
     }
-    
+
     public void disabled() {
         GRTLogger.logInfo("Disabling robot. Halting drivetrain");
         dt.setMotorSpeeds(0.0, 0.0);
@@ -59,50 +59,44 @@ public class MainRobot extends GRTRobot {
         GRTBatterySensor batterySensor = new GRTBatterySensor(10, "battery");
         batterySensor.startPolling();
         batterySensor.enable();
-		
-	//Shifter solenoids
-	GRTSolenoid leftShifter = new GRTSolenoid(1, "leftShifter");
-	GRTSolenoid rightShifter = new GRTSolenoid(2, "rightShifter");
-	
-	leftShifter.enable(); rightShifter.enable();
-	
-	//Compressor
-	Compressor compressor = new Compressor(14, 1);
-	compressor.start();
-	
+
+        //Shifter solenoids
+        Solenoid leftShifter = new Solenoid(1);
+        Solenoid rightShifter = new Solenoid(2);
+
+        //Compressor
+        Compressor compressor = new Compressor(14, 1);
+        compressor.start();
+
         // PWM outputs
-        GRTVictor leftDT1 = new GRTVictor(9, "leftDT1");
-        GRTVictor leftDT2 = new GRTVictor(10, "leftDT2");
-        GRTVictor rightDT1 = new GRTVictor(1, "rightDT1");
-        GRTVictor rightDT2 = new GRTVictor(2, "rightDT2");
-        leftDT1.enable();
-        leftDT2.enable();
-        rightDT1.enable();
-        rightDT2.enable();
+        Victor leftDT1 = new Victor(9);
+        Victor leftDT2 = new Victor(10);
+        Victor rightDT1 = new Victor(1);
+        Victor rightDT2 = new Victor(2);
         GRTLogger.logInfo("Motors initialized");
-        
+
         // Encoders
         GRTEncoder leftEnc = new GRTEncoder(1, 2, 1, 50, "leftEnc");
         GRTEncoder rightEnc = new GRTEncoder(3, 4, 1, 50, "rightEnc");
+
         leftEnc.enable();
         rightEnc.enable();
         leftEnc.startPolling();
         rightEnc.startPolling();
+
         GRTLogger.logInfo("Encoders initialized");
 
         //Mechanisms
         dt = new GRTDriveTrain(leftDT1, leftDT2,
                 rightDT1, rightDT2, leftShifter, rightShifter, leftEnc, rightEnc);
-        
+
         GRTLogger.logInfo("Mechanisms initialized");
 
         //Controllers
         DriveController dc =
                 new DriveController(dt, primary, secondary);
         GRTLogger.logInfo("Controllers Initialized");
-        
-        
-        
+
         addTeleopController(dc);
 
         GRTLogger.logSuccess("Ready to drive.");
@@ -111,9 +105,9 @@ public class MainRobot extends GRTRobot {
     /**
      * Initialize function for the 2012 base.
      */
-    private void base2012Init(){
+    private void base2012Init() {
         GRTLogger.logInfo("2012 Base: GRTFramework starting up.");
-        
+
         //Battery Sensor
         GRTBatterySensor batterySensor = new GRTBatterySensor(10, "battery");
         batterySensor.startPolling();
@@ -122,34 +116,30 @@ public class MainRobot extends GRTRobot {
         //Driver station components
         GRTJoystick joy1 = new GRTJoystick(1, 25, "Joystick");
         GRTJoystick joy2 = new GRTJoystick(2, 25, "Joystick");
-        
-        joy1.startPolling(); 
+
+        joy1.startPolling();
         joy1.enable();
-        
-        joy2.startPolling(); 
+
+        joy2.startPolling();
         joy2.enable();
 
         GRTLogger.logInfo("Joysticks initialized");
-        
+
         // PWM outputs
         //TODO check motor pins
-        GRTTalon leftDT1 = new GRTTalon(9, "leftDT1");
-        GRTTalon leftDT2 = new GRTTalon(10, "leftDT2");
-        GRTTalon rightDT1 = new GRTTalon(1, "rightDT1");
-        GRTTalon rightDT2 = new GRTTalon(2, "rightDT2");
-        leftDT1.enable();
-        leftDT2.enable();
-        rightDT1.enable();
-        rightDT2.enable();
+        Talon leftDT1 = new Talon(9);
+        Talon leftDT2 = new Talon(10);
+        Talon rightDT1 = new Talon(1);
+        Talon rightDT2 = new Talon(2);
         GRTLogger.logInfo("Motors initialized");
 
         //Mechanisms
         dt = new GRTDriveTrain(leftDT1, leftDT2, rightDT1, rightDT2);
         dt.setScaleFactors(1, -1, -1, 1);
-        
+
         AxisCamera cam = AxisCamera.getInstance();
         cam.writeResolution(AxisCamera.ResolutionT.k640x480);
-        
+
         GRTLogger.logInfo("mechanisms intialized");
     }
 }
