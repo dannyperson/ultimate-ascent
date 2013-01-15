@@ -17,17 +17,15 @@ import java.util.Vector;
  */
 public class Dashboard2013 extends Sensor{
     
-    public static int KEY_P = 0;
-    public static int KEY_I = 1;
-    public static int KEY_D = 2;
-    public static int KEY_RESPONSE = 3;
-    private String[] fieldNames = {"KEY_P", "KEY_I", "KEY_D", "KEY_RESPONSE"};
-    private double[] initialValues = {1, 1, 1, 1};
+    public static int KEY_DRIVETRAIN_L = 0;
+    public static int KEY_DRIVETRAIN_R = 1;
+    private String[] fieldNames = {"KEY_DRIVETRAIN_L", "KEY_DRIVETRAIN_R"};
+    private double[] initialValues = {1, 1};
     private Vector dashListeners;
     
     public Dashboard2013()
     {   
-        super("Dashboard", 50, 3);
+        super("Dashboard", 50, 2);
         
         for(int i = 0; i < fieldNames.length; i++)
         {
@@ -45,10 +43,8 @@ public class Dashboard2013 extends Sensor{
     
     protected void poll()
     {
-        this.setState(0, SmartDashboard.getNumber(fieldNames[0]));
-        this.setState(1, SmartDashboard.getNumber(fieldNames[1]));
-        this.setState(2, SmartDashboard.getNumber(fieldNames[2]));
-
+		for(int i = 0; i < fieldNames.length; i++)
+			this.setState(0, SmartDashboard.getNumber(fieldNames[0]));
     }
 
     protected void notifyListeners(int id, double newDatum) {
@@ -70,8 +66,8 @@ public class Dashboard2013 extends Sensor{
         dashListeners.removeElement(l);
     }
     
-    public void sendNumber(int id, double data)
-    {
-        SmartDashboard.putNumber(fieldNames[id], data);
-    }
+//    public void sendNumber(int id, double data)
+//    {
+//        SmartDashboard.putNumber(fieldNames[id], data);
+//    }
 }

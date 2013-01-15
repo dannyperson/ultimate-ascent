@@ -102,9 +102,19 @@ public class DriveController extends EventController implements GRTJoystickListe
     }
 
     public void changed(DashboardEvent e) {
-        dash.sendNumber(dash.KEY_RESPONSE, e.getData());
+        if(e.getID() == dash.KEY_DRIVETRAIN_L)
+		{
+			leftVelocity = e.getData();
+		}
+		else if(e.getID() == dash.KEY_DRIVETRAIN_R)
+		{
+			rightVelocity = e.getData();
+		}
+		
+		dt.setMotorSpeeds(leftVelocity, rightVelocity);
     }
 
     public void sensorStateChanged(SensorEvent e) {
+		
     }
 }
